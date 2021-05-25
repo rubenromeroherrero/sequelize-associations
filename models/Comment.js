@@ -1,8 +1,7 @@
 const { DataTypes } = require("sequelize");
 const dbConnection = require("../config/db");
 
-const Post = dbConnection.define("Post", {
-  // crea un id, definido por nosotros
+const Comment = dbConnection.define("Comment", {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
@@ -10,12 +9,9 @@ const Post = dbConnection.define("Post", {
     defaultValue: DataTypes.UUIDV4,
     allowNull: false,
   },
-  title: {
-    type: DataTypes.STRING,
-  },
   content: {
-    type: DataTypes.TEXT,
+    type: DataTypes.STRING,
   },
 });
 
-module.exports = Post;
+module.exports = Comment;

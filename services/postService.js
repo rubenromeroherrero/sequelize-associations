@@ -15,5 +15,14 @@ exports.createPost = async (post) => {
       "You must provide title and content in order to create a post"
     );
   }
+
   await postRepository.insertPost(post);
+};
+
+exports.updatePost = async (id, postDetails) => {
+  return await postRepository.updatePost(id, postDetails);
+};
+
+exports.removePost = async (id) => {
+  return await postRepository.deleteUser(id);
 };

@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('express-relationship:server');
+var debug = require('debug')('11-express-relationship:server');
 var http = require('http');
 
 /**
