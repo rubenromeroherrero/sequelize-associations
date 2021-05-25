@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const postService = require("../services/postService");
 
+// GET
 router.get("/all", async (req, res) => {
   try {
     const posts = await postService.getAllPosts();
@@ -21,6 +22,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// POST
 router.post("/", async (req, res) => {
   try {
     await postService.createPost(req.body);
@@ -30,6 +32,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// PUT
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -40,6 +43,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// DELETE
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;

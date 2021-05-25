@@ -16,7 +16,10 @@ exports.findPostById = async (id) => {
   // de esta manera vinculamos e indicamos el usuario al mostrar el post
   // return await Post.findByPk(id, { include: User });
   return await Post.findByPk(id, {
-    include: { model: User, attributes: ["name"] },
+    include: [
+      { model: User, attributes: ["name"] },
+      { model: Comment, attributes: ["content"] },
+    ],
   });
 };
 
