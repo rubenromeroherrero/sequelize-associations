@@ -11,4 +11,13 @@ router.get("/all", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  try {
+    await commentService.createComment(req.body);
+    res.sendStatus(201);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 module.exports = router;

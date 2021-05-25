@@ -9,7 +9,9 @@ const loadModels = () => {
   User.hasMany(Post);
   Post.belongsTo(User);
   Post.hasMany(Comment);
-  // pertenece a
+  // pertenece a User, porque el post ya está relacionado
+  Comment.belongsTo(User);
+  // para que en el comment, aparezca el post al que pertenece
   Comment.belongsTo(Post);
   // sincronizarse con la tabla de datos y crear las tablas (PROMISS --> necesitamos un then())
   dbConnection.sync().then(() => console.log("All models loaded"));
