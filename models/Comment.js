@@ -5,12 +5,12 @@ const Comment = dbConnection.define("Comment", {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
-    // genera el id, sequelize lo lleva integrado
+    // genera el id, sequelize lo lleva integrado -> claves aleatorias
     defaultValue: DataTypes.UUIDV4,
     allowNull: false,
   },
   content: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
 });
 

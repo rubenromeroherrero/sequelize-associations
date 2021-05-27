@@ -3,6 +3,10 @@
 
 const userRepository = require("../repositories/userRepository");
 const encryptPassword = require("../utils/encryptPassword");
+// importamos la libreria joi, para controlar las validaciones
+const { updateSchema } = require("../validations/userValidation");
+// para poder generar los token, es decir, encriptar los datos de nuestro usuario
+const { generateToken } = require("./jwtService");
 
 // métodos que van a hablar con la ruta
 exports.signup = async (userDetails) => {
@@ -35,8 +39,9 @@ exports.login = async (email, password) => {
     throw new Error("Your password is incorrect");
   }
 
-  // no queremos mostrar la contraseña al usuario --> funcion que creamos en User
-  return user.toJSON();
+  // encriptamos los datos de usuario, para inyectarlos a la cabecera
+  const token = generateToken(user.id, user.email, user.role);
+  return token;
 };
 
 exports.getProfile = async (email) => {
@@ -49,7 +54,13 @@ exports.getAllProfiles = async () => {
 };
 
 // el usuario ha inciado sesión y tenemos su info al completo, por eso buscamos por id
+// con la librería de validación (joi) controlamos lo que queremos que pueda modificar el usuario
 exports.editProfile = async (id, userDetails) => {
-  // validamos lo que puede editar, en este caso toda la info
-  await userRepository.updateUser(id, userDetails);
+  // validamos lo que puede editar, en este caso lo que hemos estipulado en el scheme/joi
+  const validation = await updateSchema.validateAsync(userDetails);
+  // en caso de que envíe una nueva contraseña la encriptamos
+  if (validation.password) {
+    validation.password = await encryptPassword(validation.password);
+  }
+  await userRepository.updateUser(id, validation);
 };

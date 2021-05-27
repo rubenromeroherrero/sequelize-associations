@@ -6,6 +6,13 @@ const dbConnection = require("../config/db");
 const User = dbConnection.define(
   "User",
   {
+    id: {
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.UUID,
+      // utilzamos la version 4
+      defaultValue: DataTypes.UUIDV4,
+    },
     email: {
       type: DataTypes.STRING,
       unique: true,
@@ -15,6 +22,10 @@ const User = dbConnection.define(
     },
     name: {
       type: DataTypes.STRING,
+    }, // añadimos un rol que nos permite saber si es user, admin etc
+    role: {
+      type: DataTypes.STRING(10),
+      defaultValue: "user",
     },
   }, // 3 parámetro, scopes
   {

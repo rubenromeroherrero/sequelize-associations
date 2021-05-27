@@ -8,6 +8,7 @@ const Post = dbConnection.define("Post", {
     type: DataTypes.UUID,
     // genera el id, sequelize lo lleva integrado
     defaultValue: DataTypes.UUIDV4,
+    // establecemos que no sea null la propiedad
     allowNull: false,
   },
   title: {

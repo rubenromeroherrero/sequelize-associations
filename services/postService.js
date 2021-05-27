@@ -1,4 +1,6 @@
 const postRepository = require("../repositories/postRepository");
+// archivo para generar/ lanzar errores
+const HttpError = require("../utils/httpError");
 
 exports.getPost = async (id) => {
   const post = await postRepository.findPostById(id);
@@ -11,7 +13,8 @@ exports.getAllPosts = async () => {
 
 exports.createPost = async (post) => {
   if (!post.title || !post.content) {
-    throw new Error(
+    throw new HttpError(
+      400,
       "You must provide title and content in order to create a post"
     );
   }

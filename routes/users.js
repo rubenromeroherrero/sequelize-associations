@@ -1,10 +1,14 @@
 var express = require("express");
+const roleValidation = require("../middleware/roleValidation");
+// const adminValidation = require("../middleware/adminValidation");
 var router = express.Router();
 // importamos los servicios, que nos permiten conectar con la DB
 const userService = require("../services/userService");
 
 // creamos las rutas que conectan con los servicios
-router.get("/all", async (req, res) => {
+// sólo podrá ver todos los usuarios aquel usuario que tenga el rol de admin
+// esto no lo debería de ver un usuario, sino un admin
+router.get("/all", roleValidation(), async (req, res) => {
   try {
     const user = await userService.getAllProfiles();
     res.status(200).json(user);
@@ -24,6 +28,11 @@ router.get("/:email", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// autorización -> comprobar si tenemos los permisos suficientes para hacer algo (webtoken)
+// json web token --> cadena codificada (tipo y algoritmo de encriptacion, payload (lo que metemos),
+// verify signature --> para poder codificar)
+// autentificación -> el hecho de iniciar sesión (login, signup)
 
 router.post("/signup", async (req, res) => {
   try {
@@ -46,9 +55,10 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/", async (req, res) => {
   try {
-    const { id } = req.params;
+    // cogemos el id del user, del token validation
+    const { id } = req.user;
     await userService.editProfile(id, req.body);
     // 204--> actualización ha ido correctamente
     res.sendStatus(204);
