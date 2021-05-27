@@ -49,7 +49,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    await commentService.removeComment(id);
+    await commentService.removeComment(req.user, id);
     res.status(204).json();
   } catch (error) {
     next(error);
